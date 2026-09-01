@@ -186,14 +186,42 @@
   const modal = document.getElementById('reserveModal');
   const rmForm = document.getElementById('reserveForm');
   const rutaSelect = document.getElementById('rutaSelect');
+  const origenSelect = document.getElementById('origenSelect');
+  const destinoSelect = document.getElementById('destinoSelect');
+  const invertBtn = document.getElementById('invertBtn');
   const fechaInput = document.getElementById('fechaInput');
   const pasajerosInput = document.getElementById('pasajerosInput');
   const horaInput = document.getElementById('horaInput');
-  const destinoInput = document.getElementById('destinoInput');
   const reserveError = document.getElementById('reserveError');
 
+  // Puntos (paradas) disponibles por ruta
+  const ROUTE_MAP = {
+    'Apatzingán ⇄ Morelia': 'morelia',
+    'Apatzingán / Uruapan ⇄ Guadalajara': 'gdl',
+    'Morelia ⇄ León': 'leon'
+  };
+  const routePoints = {
+    morelia: { label:'Apatzingán ⇄ Morelia', points:['Apatzingán','San Antonio','Parácuaro','Uspéro','Antúnez','Cénidor','4 Caminos','Centro Morelia','Niño / INAPAM'] },
+    gdl: { label:'Apatzingán / Uruapan ⇄ Guadalajara', points:['Apatzingán','Uruapan','Guadalajara','Aeropuerto GDL','Hotel RIU'] },
+    leon: { label:'Morelia ⇄ León', points:['Morelia','Xangari','Salamanca','Irapuato','Silao','León (Centro Max)'] }
+  };
+
+  function populateOd(key){
+    const data = routePoints[key] || routePoints.morelia;
+    rutaSelect.value = key;
+    origenSelect.innerHTML = '';
+    destinoSelect.innerHTML = '';
+    data.points.forEach(p=>{
+      origenSelect.add(new Option(p, p));
+      destinoSelect.add(new Option(p, p));
+    });
+    origenSelect.value = data.points[0];
+    destinoSelect.value = data.points[data.points.length-1];
+  }
+
   function openModal(route){
-    if(route && Array.from(rutaSelect.options).some(o=>o.value===route)) rutaSelect.value = route;
+    const key = ROUTE_MAP[route] || rutaSelect.value || 'morelia';
+    populateOd(key);
     modal.classList.add('open');
     modal.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
@@ -210,29 +238,42 @@
   modal.addEventListener('click', e=>{ if(e.target.closest('[data-close]')) closeModal(); });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
+  rutaSelect.addEventListener('change', ()=>populateOd(rutaSelect.value));
+  invertBtn.addEventListener('click', ()=>{
+    const t = origenSelect.value;
+    origenSelect.value = destinoSelect.value;
+    destinoSelect.value = t;
+  });
+
   // fecha mínima = hoy
   const today = new Date(); today.setMinutes(today.getMinutes()-today.getTimezoneOffset());
   fechaInput.min = today.toISOString().split('T')[0];
 
   rmForm.addEventListener('submit', e=>{
     e.preventDefault();
-    const ruta = rutaSelect.value;
+    const key = rutaSelect.value;
+    const label = routePoints[key] ? routePoints[key].label : rutaSelect.value;
+    const origen = origenSelect.value;
+    const destino = destinoSelect.value;
     const fecha = fechaInput.value;
     const pas = pasajerosInput.value;
     const hora = horaInput.value;
-    const destino = destinoInput.value.trim();
     if(!fecha){ reserveError.hidden = false; return; }
     reserveError.hidden = true;
     const f = new Date(fecha+'T00:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
     let msg = 'Hola Transportes Esmar 👋\nQuiero reservar:\n';
-    msg += '• Ruta: ' + ruta + '\n';
-    if(destino) msg += '• Destino: ' + destino + '\n';
+    msg += '• Ruta: ' + label + '\n';
+    msg += '• Origen: ' + origen + '\n';
+    msg += '• Destino: ' + destino + '\n';
     msg += '• Fecha: ' + f + '\n';
     if(hora) msg += '• Horario: ' + hora + '\n';
     msg += '• Pasajeros: ' + pas + '\n\n¿Está disponible? Gracias.';
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank');
     closeModal();
   });
+
+  // init modal
+  populateOd(rutaSelect.value);
 
   // PWA: registrar service worker (solo https/localhost)
   if('serviceWorker' in navigator && (location.protocol==='https:' || ['localhost','127.0.0.1'].includes(location.hostname))){

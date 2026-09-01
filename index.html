@@ -475,15 +475,22 @@
         <label class="field">
           <span>Ruta</span>
           <select id="rutaSelect" name="ruta" required>
-            <option>Apatzingán ⇄ Morelia</option>
-            <option>Apatzingán / Uruapan ⇄ Guadalajara</option>
-            <option>Morelia ⇄ León</option>
+            <option value="morelia">Apatzingán ⇄ Morelia</option>
+            <option value="gdl">Apatzingán / Uruapan ⇄ Guadalajara</option>
+            <option value="leon">Morelia ⇄ León</option>
           </select>
         </label>
-        <label class="field">
-          <span>Destino / punto de abordaje <em>(opcional)</em></span>
-          <input type="text" id="destinoInput" name="destino" placeholder="Ej. Aeropuerto GDL, 4 Caminos, Starbucks Centro Max…" autocomplete="off" />
-        </label>
+        <div class="field__row field__row--od">
+          <label class="field">
+            <span>Origen</span>
+            <select id="origenSelect" name="origen" required></select>
+          </label>
+          <button type="button" class="invert" id="invertBtn" aria-label="Invertir origen y destino" title="Invertir">⇄</button>
+          <label class="field">
+            <span>Destino</span>
+            <select id="destinoSelect" name="destino" required></select>
+          </label>
+        </div>
         <div class="field__row">
           <label class="field">
             <span>Fecha de viaje</span>

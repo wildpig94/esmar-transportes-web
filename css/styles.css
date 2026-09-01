@@ -292,12 +292,15 @@ b{color:inherit}
 .field input:focus,.field select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(63,174,74,.18)}
 .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235fce6a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .field__row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field__row--od{grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
+.invert{width:42px;height:44px;border-radius:12px;border:1px solid var(--line);background:rgba(63,174,74,.1);color:var(--green-2);font-size:1.25rem;cursor:pointer;display:grid;place-items:center;transition:.25s}
+.invert:hover{border-color:var(--green);color:#fff;transform:rotate(180deg)}
 .field input[type="date"]{color-scheme:dark}
 .field input[type="time"]{color-scheme:dark}
 .modal__error{color:#ff8b8b;font-size:.88rem;margin:0 0 12px}
 .modal__submit{width:100%;margin-top:4px}
 .modal__note{text-align:center;color:var(--muted);font-size:.8rem;margin:12px 0 0}
-@media(max-width:600px){.field__row{grid-template-columns:1fr}}
+@media(max-width:600px){.field__row{grid-template-columns:1fr}.field__row--od{grid-template-columns:1fr;align-items:stretch}.invert{width:100%;margin:2px 0}}
 
 /* ---- Responsive ---- */
 @media(max-width:920px){
