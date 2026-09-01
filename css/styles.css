@@ -189,15 +189,25 @@ b{color:inherit}
 
 /* ---- Features / Gallery ---- */
 .conduc{margin-bottom:36px}
-.conduc__head{margin-bottom:22px;max-width:560px}
-.feature__kicker{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--green-2);margin-bottom:10px}
-.conduc__title{font-size:1.5rem}
-.conduc__grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
-.conduc__item{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;position:relative;transition:.2s}
-.conduc__item:hover{border-color:var(--green)}
-.conduc__num{font-family:var(--display);font-weight:800;font-size:.9rem;color:var(--green-2);display:block;margin-bottom:12px;letter-spacing:.08em}
-.conduc__item p{color:var(--muted);font-size:.98rem;line-height:1.65;margin:0}
-.conduc__item strong{color:var(--text)}
+
+/* Sello de garantía / confianza */
+.guarantee{position:relative;display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;background:
+  radial-gradient(70% 130% at 0% 0%,rgba(63,174,74,.18),transparent 60%),
+  linear-gradient(180deg,#12241a,var(--bg-2));
+  border:1px solid rgba(63,174,74,.5);border-radius:24px;padding:38px 38px 36px;margin-bottom:22px;box-shadow:0 24px 60px -30px rgba(63,174,74,.45)}
+.guarantee::before{content:"SELLO DE CONFIANZA";position:absolute;top:-13px;left:28px;background:linear-gradient(135deg,var(--green-2),var(--green-dark));color:#04120a;font-size:.68rem;font-weight:800;letter-spacing:.18em;padding:7px 16px;border-radius:999px;box-shadow:0 6px 18px -6px rgba(63,174,74,.6)}
+.guarantee__left{text-align:center;padding-right:32px;border-right:1px solid var(--line)}
+.guarantee__seal{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;font-size:2.1rem;background:linear-gradient(135deg,var(--green-2),var(--green-dark));color:#04120a;margin:0 auto 18px;box-shadow:0 0 0 8px rgba(63,174,74,.14)}
+.guarantee__left h3{font-size:1.7rem;line-height:1.1;margin-bottom:10px}
+.guarantee__left p{color:var(--muted);font-size:.9rem;line-height:1.5}
+.guarantee__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:16px 26px}
+.guarantee__list li{display:flex;gap:12px;align-items:flex-start;color:var(--muted);font-size:.96rem;line-height:1.55}
+.guarantee__list li .check{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:rgba(63,174,74,.18);color:var(--green-2);font-size:.78rem;font-weight:800;margin-top:2px}
+.guarantee__list strong{color:var(--text)}
+.trustchips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 22px}
+.trustchips span{display:inline-flex;align-items:center;gap:8px;font-size:.86rem;font-weight:600;color:var(--muted);background:var(--surface);border:1px solid var(--line);padding:9px 16px;border-radius:999px}
+.trustchips span:hover{border-color:var(--green);color:var(--text)}
+@media(max-width:760px){.guarantee{grid-template-columns:1fr;gap:22px}.guarantee__left{padding-right:0;border-right:none;text-align:center}.guarantee__list{grid-template-columns:1fr}}
 .conduc__movie{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,rgba(63,174,74,.14),transparent 70%);border:1px solid var(--line);border-radius:18px;padding:22px 26px}
 .conduc__movie-ico{font-size:2rem;flex:none}
 .conduc__movie p{margin:0;color:var(--muted);font-size:1.02rem}
@@ -328,7 +338,7 @@ b{color:inherit}
   .section{padding:64px 0}
   .hero{padding:36px 0 50px}
   .hero__actions .btn{width:100%}
-  .conduc__grid,.steps{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
   .gallery{grid-template-columns:1fr}
   .gallery__item--lg,.gallery__item--wide{grid-column:span 1}
   .route-card__prices{grid-template-columns:1fr}
