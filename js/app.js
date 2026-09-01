@@ -203,7 +203,7 @@
     'Morelia ⇄ León': 'leon'
   };
   const routePoints = {
-    morelia: { label:'Apatzingán ⇄ Morelia', defaultDest:'Centro Morelia', points:['Apatzingán','San Antonio','Parácuaro','Uspéro','Antúnez','Cénidor','4 Caminos','Centro Morelia','Niño / INAPAM'] },
+    morelia: { label:'Apatzingán ⇄ Morelia', defaultDest:'Morelia Centro', points:['Apatzingán','San Antonio','Parácuaro','Uspéro','Antúnez','Cénidor','4 Caminos','Morelia Centro','Niño / INAPAM'] },
     gdl: { label:'Apatzingán / Uruapan ⇄ Guadalajara', defaultDest:'Guadalajara', points:['Apatzingán','Uruapan','Guadalajara','Aeropuerto GDL','Hotel RIU'] },
     leon: { label:'Morelia ⇄ León', defaultDest:'León (Centro Max)', points:['Morelia','Xangari','Salamanca','Irapuato','Silao','León (Centro Max)'] }
   };
@@ -213,7 +213,7 @@
     morelia: function(dest){
       if(dest==='Niño / INAPAM') return 230;
       if(dest==='4 Caminos') return 260;
-      if(['Centro Morelia','Cénidor','Apatzingán'].indexOf(dest)>-1) return 280;
+      if(['Morelia Centro','Cénidor','Apatzingán'].indexOf(dest)>-1) return 280;
       return null; // paradas intermedias sin tarifa publicada
     },
     gdl: function(o,d){
