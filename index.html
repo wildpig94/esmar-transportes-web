@@ -93,13 +93,16 @@
           </ul>
         </div>
         <div class="hero__media">
-          <div class="hero__photo">
-            <img src="assets/img/hero-interior.jpg" alt="Interior de lujo de la van Mercedes-Benz de Transportes Esmar" loading="eager" />
+          <div class="hero__photo hero__photo--slides">
+            <img class="hero__slide is-active" src="assets/img/hero-interior.jpg" alt="Interior de lujo de la van de Transportes Esmar" loading="eager" />
+            <img class="hero__slide" src="assets/img/fleet-front.jpg" alt="Van negra Mercedes-Benz de Transportes Esmar" loading="lazy" />
+            <img class="hero__slide" src="assets/img/interior-forward.jpg" alt="Vista interior panorámica de la van" loading="lazy" />
+            <img class="hero__slide" src="assets/img/fleet-white.jpg" alt="Van blanca Mercedes-Benz de Transportes Esmar" loading="lazy" />
             <div class="hero__photo-tag">
               <img src="assets/logo/logo-badge.svg" alt="Logo Transportes Esmar" width="64" height="64" />
               <div>
-                <b>Lujo a bordo</b>
-                <span>Asientos ejecutivos · comodidad</span>
+                <b>Transportes Esmar</b>
+                <span>Lujo &amp; comodidad en cada viaje</span>
               </div>
             </div>
           </div>
@@ -491,19 +494,24 @@
             <select id="destinoSelect" name="destino" required></select>
           </label>
         </div>
+        <div class="modal__price" id="priceLine">💳 Precio del boleto: <strong>—</strong></div>
         <div class="field__row">
           <label class="field">
-            <span>Fecha de viaje</span>
-            <input type="date" id="fechaInput" name="fecha" required />
+            <span>Día</span>
+            <select id="diaSelect" name="dia" required></select>
           </label>
           <label class="field">
-            <span>Pasajeros</span>
-            <input type="number" id="pasajerosInput" name="pasajeros" min="1" max="30" value="1" inputmode="numeric" required />
+            <span>Mes</span>
+            <select id="mesSelect" name="mes" required></select>
           </label>
         </div>
         <label class="field">
+          <span>Pasajeros</span>
+          <input type="number" id="pasajerosInput" name="pasajeros" min="1" max="30" value="1" inputmode="numeric" required />
+        </label>
+        <label class="field">
           <span>Horario preferido <em>(opcional)</em></span>
-          <input type="time" id="horaInput" name="hora" />
+          <input type="time" id="horaInput" name="hora" step="1800" />
         </label>
         <p class="modal__error" id="reserveError" hidden>Elige una fecha válida.</p>
         <button type="submit" class="btn btn--wa btn--lg modal__submit">

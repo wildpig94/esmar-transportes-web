@@ -189,7 +189,9 @@
   const origenSelect = document.getElementById('origenSelect');
   const destinoSelect = document.getElementById('destinoSelect');
   const invertBtn = document.getElementById('invertBtn');
-  const fechaInput = document.getElementById('fechaInput');
+  const diaSelect = document.getElementById('diaSelect');
+  const mesSelect = document.getElementById('mesSelect');
+  const priceLine = document.getElementById('priceLine');
   const pasajerosInput = document.getElementById('pasajerosInput');
   const horaInput = document.getElementById('horaInput');
   const reserveError = document.getElementById('reserveError');
@@ -201,10 +203,38 @@
     'Morelia ⇄ León': 'leon'
   };
   const routePoints = {
-    morelia: { label:'Apatzingán ⇄ Morelia', points:['Apatzingán','San Antonio','Parácuaro','Uspéro','Antúnez','Cénidor','4 Caminos','Centro Morelia','Niño / INAPAM'] },
-    gdl: { label:'Apatzingán / Uruapan ⇄ Guadalajara', points:['Apatzingán','Uruapan','Guadalajara','Aeropuerto GDL','Hotel RIU'] },
-    leon: { label:'Morelia ⇄ León', points:['Morelia','Xangari','Salamanca','Irapuato','Silao','León (Centro Max)'] }
+    morelia: { label:'Apatzingán ⇄ Morelia', defaultDest:'Centro Morelia', points:['Apatzingán','San Antonio','Parácuaro','Uspéro','Antúnez','Cénidor','4 Caminos','Centro Morelia','Niño / INAPAM'] },
+    gdl: { label:'Apatzingán / Uruapan ⇄ Guadalajara', defaultDest:'Guadalajara', points:['Apatzingán','Uruapan','Guadalajara','Aeropuerto GDL','Hotel RIU'] },
+    leon: { label:'Morelia ⇄ León', defaultDest:'León (Centro Max)', points:['Morelia','Xangari','Salamanca','Irapuato','Silao','León (Centro Max)'] }
   };
+
+  // --- Precios por ruta/parada ---
+  const fares = {
+    morelia: function(dest){
+      if(dest==='Niño / INAPAM') return 230;
+      if(dest==='4 Caminos') return 260;
+      if(['Centro Morelia','Cénidor','Apatzingán'].indexOf(dest)>-1) return 280;
+      return null; // paradas intermedias sin tarifa publicada
+    },
+    gdl: function(o,d){
+      const pair = (x,y)=> (o===x&&d===y)||(o===y&&d===x);
+      if(pair('Apatzingán','Guadalajara')) return 700;
+      if(pair('Apatzingán','Aeropuerto GDL')||pair('Apatzingán','Hotel RIU')) return 900;
+      if(pair('Uruapan','Guadalajara')) return 350;
+      if(pair('Uruapan','Aeropuerto GDL')||pair('Uruapan','Hotel RIU')) return 600;
+      return null;
+    },
+    leon: function(){ return null; } // precios por confirmar
+  };
+  function getPrice(key,o,d){
+    if(key==='morelia') return fares.morelia(d);
+    if(key==='gdl') return fares.gdl(o,d);
+    return null;
+  }
+  function updatePrice(){
+    const p = getPrice(rutaSelect.value, origenSelect.value, destinoSelect.value);
+    priceLine.innerHTML = '💳 Precio del boleto: <strong>' + (p!=null ? '$'+p : 'a confirmar') + '</strong>';
+  }
 
   function populateOd(key){
     const data = routePoints[key] || routePoints.morelia;
@@ -216,16 +246,45 @@
       destinoSelect.add(new Option(p, p));
     });
     origenSelect.value = data.points[0];
-    destinoSelect.value = data.points[data.points.length-1];
+    destinoSelect.value = data.defaultDest || data.points[data.points.length-1];
+    updatePrice();
+  }
+
+  // --- Fecha Día / Mes ---
+  const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  function fillMes(){
+    mesSelect.innerHTML = '';
+    MESES.forEach((m,i)=> mesSelect.add(new Option(m, i)));
+  }
+  function fillDia(){
+    const y = new Date().getFullYear();
+    const m = parseInt(mesSelect.value,10);
+    const dim = new Date(y, m+1, 0).getDate();
+    const cur = parseInt(diaSelect.value,10) || 1;
+    diaSelect.innerHTML = '';
+    for(let dd=1; dd<=dim; dd++) diaSelect.add(new Option(dd, dd));
+    if(diaSelect.options.length>=cur) diaSelect.value = cur;
+  }
+  function resolveFecha(){
+    const y0 = new Date().getFullYear();
+    const m = parseInt(mesSelect.value,10);
+    const dd = parseInt(diaSelect.value,10);
+    let dt = new Date(y0, m, dd);
+    const today = new Date(); today.setHours(0,0,0,0);
+    if(dt < today) dt = new Date(y0+1, m, dd);
+    return dt;
   }
 
   function openModal(route){
     const key = ROUTE_MAP[route] || rutaSelect.value || 'morelia';
     populateOd(key);
+    fillMes();
+    const now = new Date();
+    mesSelect.value = now.getMonth();
+    fillDia(); diaSelect.value = now.getDate();
     modal.classList.add('open');
     modal.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
-    setTimeout(()=>fechaInput.focus(), 50);
   }
   function closeModal(){
     modal.classList.remove('open');
@@ -239,15 +298,15 @@
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
   rutaSelect.addEventListener('change', ()=>populateOd(rutaSelect.value));
+  origenSelect.addEventListener('change', updatePrice);
+  destinoSelect.addEventListener('change', updatePrice);
+  mesSelect.addEventListener('change', fillDia);
   invertBtn.addEventListener('click', ()=>{
     const t = origenSelect.value;
     origenSelect.value = destinoSelect.value;
     destinoSelect.value = t;
+    updatePrice();
   });
-
-  // fecha mínima = hoy
-  const today = new Date(); today.setMinutes(today.getMinutes()-today.getTimezoneOffset());
-  fechaInput.min = today.toISOString().split('T')[0];
 
   rmForm.addEventListener('submit', e=>{
     e.preventDefault();
@@ -255,25 +314,39 @@
     const label = routePoints[key] ? routePoints[key].label : rutaSelect.value;
     const origen = origenSelect.value;
     const destino = destinoSelect.value;
-    const fecha = fechaInput.value;
+    const dt = resolveFecha();
     const pas = pasajerosInput.value;
     const hora = horaInput.value;
-    if(!fecha){ reserveError.hidden = false; return; }
     reserveError.hidden = true;
-    const f = new Date(fecha+'T00:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    const f = dt.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
     let msg = 'Hola Transportes Esmar 👋\nQuiero reservar:\n';
     msg += '• Ruta: ' + label + '\n';
     msg += '• Origen: ' + origen + '\n';
     msg += '• Destino: ' + destino + '\n';
     msg += '• Fecha: ' + f + '\n';
     if(hora) msg += '• Horario: ' + hora + '\n';
-    msg += '• Pasajeros: ' + pas + '\n\n¿Está disponible? Gracias.';
+    msg += '• Pasajeros: ' + pas + '\n';
+    const p = getPrice(key, origen, destino);
+    if(p!=null) msg += '• Precio: $' + p + '\n';
+    msg += '\n¿Está disponible? Gracias.';
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank');
     closeModal();
   });
 
   // init modal
   populateOd(rutaSelect.value);
+  fillMes();
+
+  // ---- Rotación de la foto principal ----
+  const slides = document.querySelectorAll('.hero__slide');
+  if(slides.length > 1){
+    let idx = 0;
+    setInterval(()=>{
+      slides[idx].classList.remove('is-active');
+      idx = (idx+1) % slides.length;
+      slides[idx].classList.add('is-active');
+    }, 5200);
+  }
 
   // PWA: registrar service worker (solo https/localhost)
   if('serviceWorker' in navigator && (location.protocol==='https:' || ['localhost','127.0.0.1'].includes(location.hostname))){
