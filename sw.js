@@ -1,5 +1,7 @@
-/* Transportes Esmar - Service Worker (offline shell) - rutas relativas para GitHub Pages */
-const CACHE = 'esmar-v3';
+/* Transportes Esmar - Service Worker
+   Estrategia RED PRIMERO: siempre intenta bajar el contenido más nuevo online.
+   Solo usa la caché como respaldo si la red falla (offline). */
+const CACHE = 'esmar-v4';
 const ASSETS = [
   'index.html',
   'css/styles.css',
@@ -30,16 +32,17 @@ self.addEventListener('activate', (e)=>{
   );
 });
 
+// RED PRIMERO: online siempre lo más nuevo; offline usa la caché.
 self.addEventListener('fetch', (e)=>{
   const req = e.request;
   if(req.method !== 'GET') return;
   const url = new URL(req.url);
   if(url.origin !== location.origin) return; // deja pasar fuentes/mapas externos
   e.respondWith(
-    caches.match(req).then(hit=> hit || fetch(req).then(res=>{
+    fetch(req).then(res=>{
       const copy = res.clone();
       caches.open(CACHE).then(c=>c.put(req, copy)).catch(()=>{});
       return res;
-    }).catch(()=> caches.match('index.html')))
+    }).catch(()=> caches.match(req).then(hit=> hit || caches.match('index.html')))
   );
 });
