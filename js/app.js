@@ -189,6 +189,7 @@
   const fechaInput = document.getElementById('fechaInput');
   const pasajerosInput = document.getElementById('pasajerosInput');
   const horaInput = document.getElementById('horaInput');
+  const destinoInput = document.getElementById('destinoInput');
   const reserveError = document.getElementById('reserveError');
 
   function openModal(route){
@@ -219,11 +220,13 @@
     const fecha = fechaInput.value;
     const pas = pasajerosInput.value;
     const hora = horaInput.value;
+    const destino = destinoInput.value.trim();
     if(!fecha){ reserveError.hidden = false; return; }
     reserveError.hidden = true;
     const f = new Date(fecha+'T00:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
     let msg = 'Hola Transportes Esmar 👋\nQuiero reservar:\n';
     msg += '• Ruta: ' + ruta + '\n';
+    if(destino) msg += '• Destino: ' + destino + '\n';
     msg += '• Fecha: ' + f + '\n';
     if(hora) msg += '• Horario: ' + hora + '\n';
     msg += '• Pasajeros: ' + pas + '\n\n¿Está disponible? Gracias.';
