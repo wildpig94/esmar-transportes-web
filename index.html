@@ -9,7 +9,7 @@
   <meta property="og:title" content="Transportes Esmar · Viaja cómodo y seguro" />
   <meta property="og:description" content="Rutas Apatzingán–Morelia, Morelia–León y Apatzingán/Uruapan–Guadalajara. Vans premium. Reserva por WhatsApp." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/img/hero-interior.jpg" />
+  <meta property="og:image" content="assets/img/hero-interior.webp" />
   <link rel="icon" type="image/png" href="icons/favicon.png" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <link rel="manifest" href="manifest.webmanifest" />
@@ -95,10 +95,10 @@
         </div>
         <div class="hero__media">
           <div class="hero__photo hero__photo--slides">
-            <img class="hero__slide is-active" src="assets/img/hero-interior.jpg" alt="Interior de lujo de la van de Transportes Esmar" loading="eager" />
-            <img class="hero__slide" src="assets/img/fleet-front.jpg" alt="Van negra Mercedes-Benz de Transportes Esmar" loading="lazy" />
-            <img class="hero__slide" src="assets/img/interior-forward.jpg" alt="Vista interior panorámica de la van" loading="lazy" />
-            <img class="hero__slide" src="assets/img/fleet-white.jpg" alt="Van blanca Mercedes-Benz de Transportes Esmar" loading="lazy" />
+            <img class="hero__slide is-active" src="assets/img/hero-interior.webp" alt="Interior de lujo de la van de Transportes Esmar" loading="eager" />
+            <img class="hero__slide" src="assets/img/fleet-front.webp" alt="Van negra Mercedes-Benz de Transportes Esmar" loading="lazy" />
+            <img class="hero__slide" src="assets/img/interior-forward.webp" alt="Vista interior panorámica de la van" loading="lazy" />
+            <img class="hero__slide" src="assets/img/fleet-white.webp" alt="Van blanca Mercedes-Benz de Transportes Esmar" loading="lazy" />
             <div class="hero__photo-tag">
               <img src="assets/logo/logo-badge.svg" alt="Logo Transportes Esmar" width="64" height="64" />
               <div>
@@ -222,19 +222,19 @@
         </div>
         <div class="destinos">
           <article class="destino">
-            <img src="assets/img/dest-apatzingan.jpg" alt="Catedral de Apatzingán, Michoacán" loading="lazy" />
+            <img src="assets/img/dest-apatzingan.webp" alt="Catedral de Apatzingán, Michoacán" loading="lazy" />
             <div class="destino__body"><h3>Apatzingán</h3><p>Michoacán · punto de salida</p></div>
           </article>
           <article class="destino">
-            <img src="assets/img/dest-morelia.jpg" alt="Acueducto y fuente de Las Tarascas, Morelia" loading="lazy" />
+            <img src="assets/img/dest-morelia.webp" alt="Acueducto y fuente de Las Tarascas, Morelia" loading="lazy" />
             <div class="destino__body"><h3>Morelia</h3><p>4 Caminos · Centro · INAPAM</p></div>
           </article>
           <article class="destino">
-            <img src="assets/img/dest-leon.jpg" alt="Arco de la Calzada, León, Guanajuato" loading="lazy" />
+            <img src="assets/img/dest-leon.webp" alt="Arco de la Calzada, León, Guanajuato" loading="lazy" />
             <div class="destino__body"><h3>León</h3><p>Guanajuato · Centro Max</p></div>
           </article>
           <article class="destino">
-            <img src="assets/img/dest-gdl.jpg" alt="Catedral de Guadalajara, Jalisco" loading="lazy" />
+            <img src="assets/img/dest-gdl.webp" alt="Catedral de Guadalajara, Jalisco" loading="lazy" />
             <div class="destino__body"><h3>Guadalajara</h3><p>Jalisco · Centro y Aeropuerto GDL</p></div>
           </article>
         </div>
@@ -250,47 +250,31 @@
           <p class="section__lead">Salidas diarias. Selecciona tu ruta y día.</p>
         </div>
 
-        <!-- Next departures -->
+        <!-- Próxima salida -->
         <div class="nextbox" id="nextbox" aria-live="polite">
           <div class="nextbox__label">🕒 Próxima salida · <span id="nextDirection">Apatzingán → Morelia</span> <span id="nextWhen"></span></div>
           <div class="nextbox__time" id="nextTime">—</div>
+          <div class="nextbox__hint">Toca una hora para reservar directo</div>
         </div>
 
-        <!-- Corridor tabs -->
-        <div class="tabs" id="corridorTabs" role="tablist">
-          <button class="tab is-active" data-corridor="morelia-a" role="tab" aria-selected="true">Apatzingán → Morelia</button>
-          <button class="tab" data-corridor="morelia-b" role="tab" aria-selected="false">Morelia → Apatzingán</button>
-          <button class="tab" data-corridor="gdl" role="tab" aria-selected="false">Guadalajara</button>
-          <button class="tab" data-corridor="morelia-leon" role="tab" aria-selected="false">Morelia → León</button>
-          <button class="tab" data-corridor="leon-morelia" role="tab" aria-selected="false">León → Morelia</button>
+        <!-- Ruta -->
+        <div class="hr-route" id="hrRoutes" role="tablist">
+          <button class="hr-route-btn is-active" type="button" data-route="morelia">Apatzingán ⇄ Morelia</button>
+          <button class="hr-route-btn" type="button" data-route="gdl">Guadalajara</button>
+          <button class="hr-route-btn" type="button" data-route="leon">Morelia ⇄ León</button>
         </div>
 
-        <!-- Day tabs -->
-        <div class="daytabs" id="dayTabs"></div>
+        <!-- Dirección -->
+        <div class="hr-dir" id="hrDir"></div>
 
-        <!-- Schedule table -->
-        <div class="schedule">
-          <div class="schedule__scroll">
-            <table class="schedtable" id="schedTable">
-              <thead><tr><th>Salidas · Apatzingán → Morelia</th></tr></thead>
-              <tbody>
-                <tr><td class="big"><span class="evd"></span>4:30 AM</td></tr>
-                <tr><td class="big"><span class="evd"></span>5:00 AM</td></tr>
-                <tr><td class="big"><span class="evd"></span>6:00 AM</td></tr>
-                <tr><td class="big"><span class="evd"></span>7:00 AM</td></tr>
-                <tr><td class="big"><span class="evd"></span>8:30 AM</td></tr>
-                <tr><td class="big"><span class="evd"></span>9:30 AM</td></tr>
-                <tr><td class="big"><span class="evd"></span>10:30 AM</td></tr>
-                <tr><td class="big"><span class="evd"></span>12:00 PM</td></tr>
-                <tr><td class="big"><span class="evd"></span>1:00 PM</td></tr>
-                <tr><td class="big"><span class="evd"></span>2:00 PM</td></tr>
-                <tr><td class="big"><span class="evd"></span>3:30 PM</td></tr>
-                <tr><td class="big"><span class="evd"></span>4:00 PM</td></tr>
-                <tr><td class="big"><span class="evd"></span>5:00 PM</td></tr>
-                <tr><td class="big"><span class="evd"></span>6:30 PM</td></tr>
-                <tr><td class="big"><span class="evd"></span>8:30 PM</td></tr>
-              </tbody>
-            </table>
+        <!-- Día -->
+        <div class="hr-days" id="hrDays"></div>
+
+        <!-- Salidas -->
+        <div class="hr-panel">
+          <div class="hr-panel__head" id="hrPanelHead">Salidas</div>
+          <div class="hr-chips" id="hrChips">
+            <span class="hr-chip">4:30 AM</span><span class="hr-chip">5:00 AM</span><span class="hr-chip">6:00 AM</span><span class="hr-chip">7:00 AM</span><span class="hr-chip">8:30 AM</span><span class="hr-chip">9:30 AM</span><span class="hr-chip">10:30 AM</span><span class="hr-chip">12:00 PM</span><span class="hr-chip">1:00 PM</span><span class="hr-chip">2:00 PM</span><span class="hr-chip">3:30 PM</span><span class="hr-chip">4:00 PM</span><span class="hr-chip">5:00 PM</span><span class="hr-chip">6:30 PM</span><span class="hr-chip">8:30 PM</span>
           </div>
         </div>
 
@@ -362,23 +346,23 @@
 
         <div class="gallery">
           <figure class="gallery__item gallery__item--lg">
-            <img src="assets/img/fleet-front.jpg" alt="Van Mercedes-Benz Sprinter negra de Transportes Esmar" loading="lazy" />
+            <img src="assets/img/fleet-front.webp" alt="Van Mercedes-Benz Sprinter negra de Transportes Esmar" loading="lazy" />
             <figcaption>Mercedes-Benz Sprinter</figcaption>
           </figure>
           <figure class="gallery__item">
-            <img src="assets/img/interior-starry.jpg" alt="Interior con iluminación ambiental de la van" loading="lazy" />
+            <img src="assets/img/interior-starry.webp" alt="Interior con iluminación ambiental de la van" loading="lazy" />
             <figcaption>Interior ejecutivo</figcaption>
           </figure>
           <figure class="gallery__item">
-            <img src="assets/img/interior-seats.jpg" alt="Asientos ejecutivos reclinables" loading="lazy" />
+            <img src="assets/img/interior-seats.webp" alt="Asientos ejecutivos reclinables" loading="lazy" />
             <figcaption>Asientos ejecutivos</figcaption>
           </figure>
           <figure class="gallery__item gallery__item--wide">
-            <img src="assets/img/interior-forward.jpg" alt="Vista interior panorámica con iluminación ambiental" loading="lazy" />
+            <img src="assets/img/interior-forward.webp" alt="Vista interior panorámica con iluminación ambiental" loading="lazy" />
             <figcaption>Lujo a bordo</figcaption>
           </figure>
           <figure class="gallery__item">
-            <img src="assets/img/fleet-white.jpg" alt="Van Mercedes-Benz Sprinter blanca de Transportes Esmar" loading="lazy" />
+            <img src="assets/img/fleet-white.webp" alt="Van Mercedes-Benz Sprinter blanca de Transportes Esmar" loading="lazy" />
             <figcaption>Unidades blancas</figcaption>
           </figure>
         </div>
@@ -393,9 +377,9 @@
           <h2 class="section__title">Así de fácil</h2>
         </div>
         <div class="steps">
-          <div class="step"><span class="step__num">1</span><h3>Elige tu ruta</h3><p>Revisa destinos, precios y horarios.</p></div>
-          <div class="step"><span class="step__num">2</span><h3>Escríbenos</h3><p>Envía tu solicitud por WhatsApp o llama.</p></div>
-          <div class="step"><span class="step__num">3</span><h3>Aborda</h3><p>Confirma tu lugar y llega a tu destino.</p></div>
+          <div class="step"><span class="step__num">1</span><h3>Elige tu ruta</h3><p>y tu fecha</p></div>
+          <div class="step"><span class="step__num">2</span><h3>Reserva</h3><p>por WhatsApp</p></div>
+          <div class="step"><span class="step__num">3</span><h3>Aborda</h3><p>y viaja</p></div>
         </div>
 
         <div class="cta">

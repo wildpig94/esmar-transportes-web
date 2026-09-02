@@ -81,53 +81,93 @@
 
   const todayKey = ()=> JS_DAY_NAMES[new Date().getDay()];
 
-  let state = { corridor:'morelia-a', day: todayKey() };
+  let state = { route:'morelia', dir:'morelia-a', day: todayKey() };
 
-  const corridorTabs = document.getElementById('corridorTabs');
-  const dayTabs = document.getElementById('dayTabs');
-  const schedBody = document.querySelector('#schedTable tbody');
+  const hrRoutes = document.getElementById('hrRoutes');
+  const hrDir = document.getElementById('hrDir');
+  const hrDays = document.getElementById('hrDays');
+  const hrChips = document.getElementById('hrChips');
+  const hrPanelHead = document.getElementById('hrPanelHead');
   const nextDir = document.getElementById('nextDirection');
   const nextTime = document.getElementById('nextTime');
   const nextWhen = document.getElementById('nextWhen');
   const gdlinfo = document.getElementById('gdlinfo');
 
-  function updateGdlInfo(){
-    gdlinfo.classList.toggle('show', state.corridor === 'gdl');
+  const SCHEDULE_ROUTES = {
+    morelia: { name:'Apatzingán ⇄ Morelia', dirs:[ {key:'morelia-a', label:'Apatzingán → Morelia'}, {key:'morelia-b', label:'Morelia → Apatzingán'} ] },
+    gdl: { name:'Guadalajara', dirs:[ {key:'gdl', label:'Guadalajara · Uruapan · Apatzingán'} ] },
+    leon: { name:'Morelia ⇄ León', dirs:[ {key:'morelia-leon', label:'Morelia → León'}, {key:'leon-morelia', label:'León → Morelia'} ] }
+  };
+  const DIRTOROUTE = { 'morelia-a':'morelia','morelia-b':'morelia','gdl':'gdl','morelia-leon':'leon','leon-morelia':'leon' };
+  const to24h = (label)=>{
+    const m = label.match(/(\d+)(?::(\d+))?\s*(AM|PM)/i);
+    if(!m) return '';
+    let h = parseInt(m[1],10)%12; if(m[3] && m[3].toUpperCase()==='PM') h+=12;
+    return String(h).padStart(2,'0') + ':' + (m[2]||'00');
+  };
+
+  function updateGdlInfo(){ gdlinfo.classList.toggle('show', state.route === 'gdl'); }
+
+  function renderHrDir(){
+    const route = SCHEDULE_ROUTES[state.route];
+    hrDir.innerHTML = '';
+    route.dirs.forEach(d=>{
+      const b = document.createElement('button');
+      b.className = 'hr-dir-btn' + (d.key===state.dir ? ' is-active':'');
+      b.textContent = d.label;
+      b.addEventListener('click', ()=>{ state.dir = d.key; renderHrDir(); renderHrChips(); renderNext(); });
+      hrDir.appendChild(b);
+    });
+    hrDir.style.display = route.dirs.length>1 ? 'flex' : 'none';
   }
 
-  function renderDayTabs(){
-    dayTabs.innerHTML = '';
+  function renderHrDays(){
+    hrDays.innerHTML = '';
     DAYS.forEach(d=>{
       const b = document.createElement('button');
-      b.className = 'daytab' + (d===state.day?' is-active':'');
+      b.className = 'hr-day-btn' + (d===state.day ? ' is-active':'');
       b.textContent = d;
-      b.addEventListener('click', ()=>{ state.day = d; renderDayTabs(); renderSchedule(); });
-      dayTabs.appendChild(b);
+      b.addEventListener('click', ()=>{ state.day = d; renderHrDays(); renderHrChips(); renderNext(); });
+      hrDays.appendChild(b);
     });
   }
 
-  function renderSchedule(){
-    const c = corridors[state.corridor];
+  function reserveFromTime(dirKey, label){
+    const rk = DIRTOROUTE[dirKey] || 'morelia';
+    populateOd(rk);
+    rutaSelect.value = rk;
+    const hora = document.getElementById('horaInput');
+    if(hora) hora.value = to24h(label);
+    // iniciar fecha en hoy
+    const now = new Date();
+    const mesS = document.getElementById('mesSelect');
+    const diaS = document.getElementById('diaSelect');
+    if(mesS && diaS){ fillMes(); mesS.value = now.getMonth(); fillDia(); diaS.value = now.getDate(); }
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function renderHrChips(){
+    const c = corridors[state.dir];
     const times = c.days[state.day] || [];
-    schedBody.innerHTML = '';
+    hrPanelHead.textContent = c.label + ' · ' + state.day;
+    hrChips.innerHTML = '';
     if(!times.length){
-      schedBody.innerHTML = '<tr><td class="empty">No hay salidas este día.</td></tr>';
+      hrChips.innerHTML = '<span class="hr-empty">No hay salidas este día.</span>';
       return;
     }
     times.forEach(t=>{
-      const tr = document.createElement('tr');
-      const td = document.createElement('td');
-      td.className = 'big';
-      const dot = document.createElement('span'); dot.className='evd';
-      td.appendChild(dot);
-      td.appendChild(document.createTextNode(fmt(t)));
-      tr.appendChild(td);
-      schedBody.appendChild(tr);
+      const label = fmt(t);
+      const b = document.createElement('button');
+      b.className = 'hr-chip'; b.type = 'button'; b.textContent = label;
+      b.addEventListener('click', ()=>reserveFromTime(state.dir, label));
+      hrChips.appendChild(b);
     });
   }
 
   function renderNext(){
-    const c = corridors[state.corridor];
+    const c = corridors[state.dir];
     nextDir.textContent = c.label;
     const now = new Date();
     const cur = now.getHours()*60 + now.getMinutes();
@@ -136,31 +176,25 @@
     const idx = DAY_ORDER.indexOf(today);
     const timesToday = c.days[today] || [];
     const nxt = timesToday.find(t=>t>cur);
-
-    if(nxt !== undefined){
-      nextWhen.textContent = '· hoy';
-      nextTime.textContent = fmt(nxt);
-      return;
-    }
-    // No quedan salidas hoy: buscar el próximo día con servicio
+    if(nxt !== undefined){ nextWhen.textContent = '· hoy'; nextTime.textContent = fmt(nxt); return; }
     for(let k=1;k<=7;k++){
       const day = DAY_ORDER[(idx+k)%7];
       const t = (c.days[day] || [])[0];
-      if(t !== undefined){
-        nextWhen.textContent = '· ' + (k===1 ? 'mañana' : day.toLowerCase());
-        nextTime.textContent = fmt(t);
-        return;
-      }
+      if(t !== undefined){ nextWhen.textContent = '· ' + (k===1 ? 'mañana' : day.toLowerCase()); nextTime.textContent = fmt(t); return; }
     }
-    nextWhen.textContent = '';
-    nextTime.textContent = '—';
+    nextWhen.textContent = ''; nextTime.textContent = '—';
   }
 
-  corridorTabs.addEventListener('click', e=>{
-    const btn = e.target.closest('.tab'); if(!btn) return;
-    state.corridor = btn.dataset.corridor;
-    corridorTabs.querySelectorAll('.tab').forEach(t=>t.classList.toggle('is-active', t===btn));
-    renderDayTabs(); renderSchedule(); renderNext(); updateGdlInfo();
+  function selectRoute(key){
+    state.route = key;
+    const route = SCHEDULE_ROUTES[key];
+    state.dir = route.dirs[0].key;
+    hrRoutes.querySelectorAll('.hr-route-btn').forEach(b=>b.classList.toggle('is-active', b.dataset.route===key));
+    renderHrDir(); renderHrDays(); renderHrChips(); renderNext(); updateGdlInfo();
+  }
+  hrRoutes.addEventListener('click', e=>{
+    const b = e.target.closest('.hr-route-btn'); if(!b) return;
+    selectRoute(b.dataset.route);
   });
 
   // nav toggle
@@ -179,7 +213,7 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // init
-  renderDayTabs(); renderSchedule(); renderNext(); updateGdlInfo();
+  selectRoute('morelia');
 
   // ---- Modal de reserva (armar mensaje de WhatsApp) ----
   const WA = '524433306834';

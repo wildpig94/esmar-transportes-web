@@ -162,9 +162,11 @@ b{color:inherit}
 .infobar strong{color:var(--text)}
 
 /* ---- Tabs / Schedules ---- */
-.nextbox{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;margin-bottom:28px;padding:20px 26px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,rgba(63,174,74,.12),transparent);}
-.nextbox__label{color:var(--muted);font-weight:500}
-.nextbox__time{font-family:var(--display);font-weight:800;font-size:2.2rem;color:var(--green-2);line-height:1}
+.nextbox{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:32px;padding:26px 30px;border:1px solid rgba(63,174,74,.4);border-radius:22px;background:linear-gradient(135deg,rgba(63,174,74,.16),rgba(63,174,74,.04) 62%),var(--bg-2);text-align:center;box-shadow:0 24px 50px -30px rgba(63,174,74,.5)}
+.nextbox__label{color:var(--muted);font-weight:500;font-size:.95rem}
+.nextbox__label b{color:var(--text)}
+.nextbox__time{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,6vw,4rem);color:var(--green-2);line-height:1.05}
+.nextbox__hint{font-size:.82rem;color:var(--muted)}
 .tabs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .tab{padding:12px 20px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font-family:var(--display);font-weight:600;font-size:.92rem;cursor:pointer;transition:.2s}
 .tab:hover{color:var(--text)}
@@ -182,6 +184,28 @@ b{color:inherit}
 .schedtable td .evd{width:8px;height:8px;border-radius:50%;background:var(--green);flex:none}
 .schedtable td.empty{color:var(--muted);font-style:italic}
 .schedtable td.big{font-family:var(--display);font-weight:700;font-size:1.05rem;color:#fff}
+
+/* ---- Horarios por ruta ---- */
+.hr-route{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+.hr-route-btn{padding:12px 20px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font-family:var(--display);font-weight:600;font-size:.92rem;cursor:pointer;transition:.2s}
+.hr-route-btn:hover{color:var(--text)}
+.hr-route-btn.is-active{background:linear-gradient(135deg,var(--green-2),var(--green-dark));color:#04120a;border-color:transparent;box-shadow:0 10px 24px -12px rgba(63,174,74,.6)}
+.hr-dir{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.hr-dir-btn{padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:.86rem;font-weight:600;cursor:pointer;transition:.18s}
+.hr-dir-btn:hover{color:var(--text)}
+.hr-dir-btn.is-active{background:rgba(63,174,74,.16);border-color:var(--green);color:var(--green-2)}
+.hr-days{display:flex;gap:6px;overflow-x:auto;justify-content:flex-start;margin:0 auto 18px;padding:2px 2px 8px;max-width:560px}
+.hr-days::-webkit-scrollbar{height:6px}
+.hr-days::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px}
+.hr-day-btn{flex:0 0 auto;min-width:56px;padding:9px 8px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:.82rem;font-weight:600;cursor:pointer;text-align:center;transition:.18s}
+.hr-day-btn:hover{color:var(--text)}
+.hr-day-btn.is-active{background:rgba(63,174,74,.16);border-color:var(--green);color:var(--green-2)}
+.hr-panel{max-width:640px;margin:0 auto}
+.hr-panel__head{text-align:center;font-family:var(--display);font-weight:700;font-size:1rem;color:var(--text);margin-bottom:14px}
+.hr-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px}
+.hr-chip{appearance:none;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 8px;color:#fff;font-family:var(--display);font-weight:700;font-size:1rem;cursor:pointer;text-align:center;transition:.15s}
+.hr-chip:hover{border-color:var(--green);background:rgba(63,174,74,.14);transform:translateY(-2px)}
+.hr-empty{grid-column:1/-1;text-align:center;color:var(--muted);font-style:italic;padding:20px}
 
 /* ---- GDL airport info ---- */
 .gdlinfo{display:none;max-width:760px;margin:26px auto 0}

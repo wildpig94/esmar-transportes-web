@@ -1,7 +1,7 @@
 /* Transportes Esmar - Service Worker
    Estrategia RED PRIMERO: siempre intenta bajar el contenido más nuevo online.
    Solo usa la caché como respaldo si la red falla (offline). */
-const CACHE = 'esmar-v4';
+const CACHE = 'esmar-v5';
 const ASSETS = [
   'index.html',
   'css/styles.css',
@@ -12,12 +12,12 @@ const ASSETS = [
   'icons/favicon.png',
   'icons/icon-192.png',
   'icons/icon-512.png',
-  'assets/img/hero-interior.jpg',
-  'assets/img/fleet-front.jpg',
-  'assets/img/fleet-white.jpg',
-  'assets/img/interior-starry.jpg',
-  'assets/img/interior-seats.jpg',
-  'assets/img/interior-forward.jpg'
+  'assets/img/hero-interior.webp',
+  'assets/img/fleet-front.webp',
+  'assets/img/fleet-white.webp',
+  'assets/img/interior-starry.webp',
+  'assets/img/interior-seats.webp',
+  'assets/img/interior-forward.webp'
 ];
 
 self.addEventListener('install', (e)=>{
