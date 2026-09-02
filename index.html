@@ -128,89 +128,78 @@
           <p class="section__lead">Precios claros y sin sorpresas. Elige tu ruta y reserva tu lugar.</p>
         </div>
 
-        <div class="routexplorer">
-          <div class="rx-tabs" role="tablist">
-            <button class="rx-tab is-active" type="button" role="tab" data-rx="morelia">Apatzingán ⇄ Morelia</button>
-            <button class="rx-tab" type="button" role="tab" data-rx="gdl">Guadalajara</button>
-            <button class="rx-tab" type="button" role="tab" data-rx="leon">Morelia ⇄ León</button>
-          </div>
-
-          <div class="rx-panels">
-            <!-- Apatzingán ⇄ Morelia -->
-            <article class="rx-panel is-show" data-panel="morelia" style="--rximg:url('assets/img/dest-morelia.jpg')">
-              <div class="rx__scrim"></div>
-              <div class="rx__content">
-                <div class="rx__top"><span class="rx__tag">Ruta principal</span><span class="rx__from">Desde <b>$230</b></span></div>
-                <h3 class="rx__title">Apatzingán <span class="rx__arrow">⇄</span> Morelia</h3>
-                <p class="rx__stops">Apatzingán · San Antonio · Parácuaro · Uspéro · Antúnez · Cénidor · 4 Caminos · Centro · INAPAM</p>
-                <div class="rx__path"><svg viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true">
-                  <defs><linearGradient id="rxg1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5fce6a"/><stop offset="1" stop-color="#2e8b3a"/></linearGradient></defs>
-                  <path d="M 8 15 C 150 3, 450 24, 592 13" fill="none" stroke="url(#rxg1)" stroke-width="3" stroke-linecap="round"/>
-                  <circle cx="8" cy="15" r="5" fill="#5fce6a"/><circle cx="205" cy="9" r="4" fill="#3fae4a"/><circle cx="385" cy="20" r="4" fill="#3fae4a"/><circle cx="592" cy="13" r="5" fill="#5fce6a"/>
-                </svg></div>
-                <div class="rx__prices">
-                  <div class="rxprice"><span>General</span><b>$280</b></div>
-                  <div class="rxprice"><span>4 Caminos / Morelia</span><b>$260</b></div>
-                  <div class="rxprice"><span>Niño · INAPAM</span><b>$230</b></div>
-                  <div class="rxprice rxprice--dim"><span>Anticipo</span><b>$140</b></div>
-                </div>
-                <div class="rx__foot">
-                  <span class="chip">🚌 Salidas de 4:30 AM a 8:30 PM</span>
-                  <button type="button" class="btn btn--primary j-reserve" data-route="Apatzingán ⇄ Morelia">Reservar</button>
-                </div>
+        <div class="routes">
+          <!-- Morelia -->
+          <article class="route-card route-card--primary">
+            <div class="route-card__label">Ruta principal</div>
+            <div class="route-card__head">
+              <div class="route-card__icon">📍</div>
+              <div>
+                <h3>Apatzingán <span class="route-card__arrow">⇄</span> Morelia</h3>
+                <p class="route-card__stops">
+                  Apatzingán · San Antonio · Parácuaro · Uspéro · Antúnez · Cénidor
+                  <span class="sep">→</span> 4 Caminos · Centro · Niño / INAPAM
+                </p>
               </div>
-            </article>
+            </div>
+            <div class="route-card__prices">
+              <div class="price"><span>General</span><strong>$280</strong></div>
+              <div class="price"><span>4 Caminos / Morelia</span><strong>$260</strong></div>
+              <div class="price"><span>Niño · INAPAM</span><strong>$230</strong></div>
+            </div>
+            <div class="route-card__foot">
+              <span class="chip">🚌 Salidas de 4:30 AM a 8:30 PM</span>
+              <button type="button" class="btn btn--sm j-reserve" data-route="Apatzingán ⇄ Morelia">Reservar</button>
+            </div>
+          </article>
 
-            <!-- Guadalajara -->
-            <article class="rx-panel" data-panel="gdl" style="--rximg:url('assets/img/dest-gdl.jpg')">
-              <div class="rx__scrim"></div>
-              <div class="rx__content">
-                <div class="rx__top"><span class="rx__tag">También servimos</span><span class="rx__from">Desde <b>$350</b></span></div>
-                <h3 class="rx__title">Apatzingán / Uruapan <span class="rx__arrow">⇄</span> Guadalajara</h3>
-                <p class="rx__stops">Apatzingán · Uruapan · Guadalajara · Aeropuerto GDL · Hotel RIU</p>
-                <div class="rx__path"><svg viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true">
-                  <defs><linearGradient id="rxg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5fce6a"/><stop offset="1" stop-color="#2e8b3a"/></linearGradient></defs>
-                  <path d="M 8 15 C 150 3, 450 24, 592 13" fill="none" stroke="url(#rxg2)" stroke-width="3" stroke-linecap="round"/>
-                  <circle cx="8" cy="15" r="5" fill="#5fce6a"/><circle cx="245" cy="11" r="4" fill="#3fae4a"/><circle cx="592" cy="13" r="5" fill="#5fce6a"/>
-                </svg></div>
-                <div class="rx__prices">
-                  <div class="rxprice"><span>Apatzingán ⇄ Aeropuerto GDL</span><b>$900</b></div>
-                  <div class="rxprice"><span>Apatzingán ⇄ Guadalajara</span><b>$700</b></div>
-                  <div class="rxprice"><span>Uruapan ⇄ Aeropuerto GDL</span><b>$600</b></div>
-                  <div class="rxprice"><span>Uruapan ⇄ Guadalajara</span><b>$350</b></div>
-                </div>
-                <div class="rx__foot">
-                  <span class="chip">🚐 Salidas diarias</span>
-                  <button type="button" class="btn btn--primary j-reserve" data-route="Apatzingán / Uruapan ⇄ Guadalajara">Reservar</button>
-                </div>
+          <!-- Guadalajara -->
+          <article class="route-card">
+            <div class="route-card__label route-card__label--alt">También servimos</div>
+            <div class="route-card__head">
+              <div class="route-card__icon">🛣️</div>
+              <div>
+                <h3>Apatzingán / Uruapan <span class="route-card__arrow">⇄</span> Guadalajara</h3>
+                <p class="route-card__stops">
+                  Apatzingán · Uruapan <span class="sep">→</span> Guadalajara (GDL) · Aeropuerto GDL
+                  <br /><small>Servicio vía Hotel RIU y Aeropuerto GDL</small>
+                </p>
               </div>
-            </article>
+            </div>
+            <div class="route-card__prices">
+              <div class="price"><span>Apatzingán ⇄ Aeropuerto GDL</span><strong>$900</strong></div>
+              <div class="price"><span>Apatzingán ⇄ Guadalajara</span><strong>$700</strong></div>
+              <div class="price"><span>Uruapan ⇄ Aeropuerto GDL</span><strong>$600</strong></div>
+              <div class="price"><span>Uruapan ⇄ Guadalajara</span><strong>$350</strong></div>
+            </div>
+            <div class="route-card__foot">
+              <span class="chip">🚐 Salidas diarias</span>
+              <button type="button" class="btn btn--sm j-reserve" data-route="Apatzingán / Uruapan ⇄ Guadalajara">Reservar</button>
+            </div>
+          </article>
 
-            <!-- Morelia ⇄ León -->
-            <article class="rx-panel" data-panel="leon" style="--rximg:url('assets/img/dest-leon.jpg')">
-              <div class="rx__scrim"></div>
-              <div class="rx__content">
-                <div class="rx__top"><span class="rx__tag">Ruta León</span><span class="rx__from">Precios <b>al reservar</b></span></div>
-                <h3 class="rx__title">Morelia <span class="rx__arrow">⇄</span> León</h3>
-                <p class="rx__stops">Morelia · Xangari · Salamanca · Irapuato · Silao · León (Centro Max)</p>
-                <div class="rx__path"><svg viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true">
-                  <defs><linearGradient id="rxg3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5fce6a"/><stop offset="1" stop-color="#2e8b3a"/></linearGradient></defs>
-                  <path d="M 8 15 C 150 3, 450 24, 592 13" fill="none" stroke="url(#rxg3)" stroke-width="3" stroke-linecap="round"/>
-                  <circle cx="8" cy="15" r="5" fill="#5fce6a"/><circle cx="260" cy="12" r="4" fill="#3fae4a"/><circle cx="592" cy="13" r="5" fill="#5fce6a"/>
-                </svg></div>
-                <div class="rx__prices">
-                  <div class="rxprice"><span>Viaje por pista</span><b>Silao · Irapuato · Salamanca</b></div>
-                  <div class="rxprice"><span>Abordar</span><b>Starbucks Centro Max · Panadería Xangari</b></div>
-                </div>
-                <div class="rx__foot">
-                  <span class="chip">🏛️ Salidas Viernes–Lunes</span>
-                  <button type="button" class="btn btn--primary j-reserve" data-route="Morelia ⇄ León">Reservar</button>
-                </div>
+          <!-- León -->
+          <article class="route-card route-card--new">
+            <div class="route-card__label route-card__label--alt">Ruta León</div>
+            <div class="route-card__head">
+              <div class="route-card__icon">🏛️</div>
+              <div>
+                <h3>Morelia <span class="route-card__arrow">⇄</span> León</h3>
+                <p class="route-card__stops">
+                  <strong>Abordar:</strong> León – Starbucks de Centro Max · Morelia – Panadería Mar y Pan en Xangari
+                </p>
               </div>
-            </article>
-          </div>
+            </div>
+            <div class="route-card__prices">
+              <div class="price price--note"><span>Viaje por pista</span><strong>Silao · Irapuato · Salamanca · Xangari</strong></div>
+              <div class="price price--note"><span>Precios</span><strong>Al reservar</strong></div>
+            </div>
+            <div class="route-card__foot">
+              <span class="chip">🏛️ Salidas Viernes–Lunes</span>
+              <button type="button" class="btn btn--sm j-reserve" data-route="Morelia ⇄ León">Reservar</button>
+            </div>
+          </article>
         </div>
-
         <div class="infobar">
           <span>🧳 <strong>Equipaje permitido:</strong> solo maleta chica (10 kg) a mediana (15 kg)</span>
           <span>🚐 Servicio vía Hotel RIU y Aeropuerto GDL</span>
