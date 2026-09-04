@@ -227,6 +227,7 @@
   const mesSelect = document.getElementById('mesSelect');
   const priceLine = document.getElementById('priceLine');
   const pasajerosInput = document.getElementById('pasajerosInput');
+  const tipoSelect = document.getElementById('tipoSelect');
   const horaInput = document.getElementById('horaInput');
   const reserveError = document.getElementById('reserveError');
 
@@ -260,13 +261,18 @@
     },
     leon: function(){ return null; } // precios por confirmar
   };
-  function getPrice(key,o,d){
+  function getPrice(key,o,d,tipo){
+    if(tipo==='menor'){
+      if(key==='morelia') return 230; // tarifa Menor (niño / INAPAM)
+      return null;                    // tarifa Menor en otras rutas: consultar
+    }
     if(key==='morelia') return fares.morelia(d);
     if(key==='gdl') return fares.gdl(o,d);
     return null;
   }
   function updatePrice(){
-    const p = getPrice(rutaSelect.value, origenSelect.value, destinoSelect.value);
+    const t = tipoSelect ? tipoSelect.value : 'adulto';
+    const p = getPrice(rutaSelect.value, origenSelect.value, destinoSelect.value, t);
     priceLine.innerHTML = '💳 Precio del boleto: <strong>' + (p!=null ? '$'+p : 'a confirmar') + '</strong>';
   }
 
@@ -334,6 +340,7 @@
   rutaSelect.addEventListener('change', ()=>populateOd(rutaSelect.value));
   origenSelect.addEventListener('change', updatePrice);
   destinoSelect.addEventListener('change', updatePrice);
+  tipoSelect.addEventListener('change', updatePrice);
   mesSelect.addEventListener('change', fillDia);
   invertBtn.addEventListener('click', ()=>{
     const t = origenSelect.value;
@@ -350,6 +357,7 @@
     const destino = destinoSelect.value;
     const dt = resolveFecha();
     const pas = pasajerosInput.value;
+    const tipo = (tipoSelect ? tipoSelect.value : 'adulto');
     const hora = horaInput.value;
     reserveError.hidden = true;
     const f = dt.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
@@ -359,8 +367,8 @@
     msg += '• Destino: ' + destino + '\n';
     msg += '• Fecha: ' + f + '\n';
     if(hora) msg += '• Horario: ' + hora + '\n';
-    msg += '• Pasajeros: ' + pas + '\n';
-    const p = getPrice(key, origen, destino);
+    msg += '• Pasajeros: ' + pas + ' (' + (tipo==='menor'?'Menor':'Adulto') + ')\n';
+    const p = getPrice(key, origen, destino, tipo);
     if(p!=null) msg += '• Precio: $' + p + '\n';
     msg += '\n¿Está disponible? Gracias.';
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank');

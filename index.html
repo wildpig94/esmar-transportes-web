@@ -141,9 +141,9 @@
               </div>
             </div>
             <div class="route-card__prices">
-              <div class="price"><span>General</span><strong>$280</strong></div>
+              <div class="price"><span>Adulto</span><strong>$280</strong></div>
               <div class="price"><span>4 Caminos / Morelia</span><strong>$260</strong></div>
-              <div class="price"><span>Niño · INAPAM</span><strong>$230</strong></div>
+              <div class="price"><span>Menor · INAPAM</span><strong>$230</strong></div>
             </div>
             <div class="route-card__foot">
               <span class="chip">🚌 Salidas de 4:30 AM a 8:30 PM</span>
@@ -200,6 +200,7 @@
         </div>
         <div class="infobar">
           <span>🧳 <strong>Equipaje permitido:</strong> maleta ligera de 10 kg</span>
+          <span>🎟️ Tarifa <strong>Adulto</strong> y <strong>Menor</strong> · el pasaje Menor (niño / INAPAM) tiene precio reducido</span>
         </div>
 
         <p class="payment-note">
@@ -575,10 +576,19 @@
             <select id="mesSelect" name="mes" required></select>
           </label>
         </div>
-        <label class="field">
-          <span>Pasajeros</span>
-          <input type="number" id="pasajerosInput" name="pasajeros" min="1" max="30" value="1" inputmode="numeric" required />
-        </label>
+        <div class="field__row">
+          <label class="field">
+            <span>Pasajeros</span>
+            <input type="number" id="pasajerosInput" name="pasajeros" min="1" max="30" value="1" inputmode="numeric" required />
+          </label>
+          <label class="field">
+            <span>Tipo</span>
+            <select id="tipoSelect" name="tipo" required>
+              <option value="adulto">Adulto</option>
+              <option value="menor">Menor</option>
+            </select>
+          </label>
+        </div>
         <label class="field">
           <span>Horario preferido <em>(opcional)</em></span>
           <input type="time" id="horaInput" name="hora" step="1800" />
