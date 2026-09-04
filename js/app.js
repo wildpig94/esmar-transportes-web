@@ -216,7 +216,7 @@
   selectRoute('morelia');
 
   // ---- Modal de reserva (armar mensaje de WhatsApp) ----
-  const WA = '524433306834';
+  const WA = '524531314437';
   const modal = document.getElementById('reserveModal');
   const rmForm = document.getElementById('reserveForm');
   const rutaSelect = document.getElementById('rutaSelect');
